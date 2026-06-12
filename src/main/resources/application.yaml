@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: crudOperation
+
+  datasource:
+    url: jdbc:h2:file:./data/bankingdb
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update   # options: none, validate, update, create, create-drop
+    show-sql: true
+
+  jackson:
+    mapper:
+      sort-properties-alphabetically: false
+
+  h2:
+    console:
+      enabled: true
