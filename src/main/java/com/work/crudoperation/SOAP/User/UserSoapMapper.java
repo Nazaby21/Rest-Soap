@@ -6,6 +6,8 @@ import com.work.crudoperation.DTO.Response.UserResponseDto;
 import com.work.crudoperation.generated.*;
 import org.mapstruct.Mapper;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface UserSoapMapper {
 
@@ -13,9 +15,13 @@ public interface UserSoapMapper {
     CreateUserRequestDto createSoapToCreateRest(CreateUserRequest createUserRequest);
     UpdateUserRequestDto updateSoapToUpdateRest(UpdateUserRequest updateUserRequest);
 
+
     // map userResponse(rest) to createUserResponse(soap)
     CreateUserResponse responseRestToResponseSoap(UserResponseDto userResponseDto);
     UpdateUserResponse updateResponseRestToResponseSoap(UserResponseDto userResponseDto);
-
     GetUserResponse userResponseRestToUserResponseSoap(UserResponseDto userResponseDto);
+
+    // responseSoap to ResponseRest
+    UserResponseDto soapToDto(GetUserResponse UserResponse);
+
 }

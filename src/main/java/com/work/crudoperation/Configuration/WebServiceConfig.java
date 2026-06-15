@@ -14,28 +14,79 @@ import org.springframework.xml.xsd.XsdSchema;
 @Configuration
 @EnableWs
 public class WebServiceConfig {
-    @Bean
-    public ServletRegistrationBean<MessageDispatcherServlet> messageDispatcherServlet(ApplicationContext applicationContext) {
-        MessageDispatcherServlet servlet = new MessageDispatcherServlet();
-        servlet.setApplicationContext(applicationContext);
-        servlet.setTransformWsdlLocations(true);
+//    @Bean
+//    public ServletRegistrationBean<MessageDispatcherServlet> messageDispatcherServlet(ApplicationContext applicationContext) {
+//        MessageDispatcherServlet servlet = new MessageDispatcherServlet();
+//        servlet.setApplicationContext(applicationContext);
+//        servlet.setTransformWsdlLocations(true);
+//
+//        return new ServletRegistrationBean<>(servlet, "/ws/*");
+//    }
+//
+//    @Bean
+//    public XsdSchema userSchema() {
+//        return new SimpleXsdSchema(new ClassPathResource("xsd/user.xsd"));
+//    }
+//
+//    @Bean(name = "users")
+//    public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema userSchema) {
+//
+//        DefaultWsdl11Definition wsdl = new DefaultWsdl11Definition();
+//        wsdl.setPortTypeName("UserPort");
+//        wsdl.setLocationUri("/ws");
+//        wsdl.setTargetNamespace("http://work.com/crudoperation");
+//        wsdl.setSchema(userSchema);
+//        return wsdl;
+//    }
 
-        return new ServletRegistrationBean<>(servlet, "/ws/*");
+    @Bean
+    public ServletRegistrationBean<MessageDispatcherServlet> messageDispatcherServlet(
+            ApplicationContext applicationContext) {
+
+
+        MessageDispatcherServlet servlet =
+                new MessageDispatcherServlet();
+
+
+        servlet.setApplicationContext(applicationContext);
+
+
+        return new ServletRegistrationBean<>(
+                servlet,
+                "/ws/*"
+        );
     }
+
 
     @Bean
     public XsdSchema userSchema() {
-        return new SimpleXsdSchema(new ClassPathResource("xsd/user.xsd"));
+
+        return new SimpleXsdSchema(
+                new ClassPathResource("xsd/user.xsd")
+        );
     }
 
-    @Bean(name = "users")
-    public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema userSchema) {
 
-        DefaultWsdl11Definition wsdl = new DefaultWsdl11Definition();
+    @Bean(name="users")
+    public DefaultWsdl11Definition users(
+            XsdSchema userSchema
+    ){
+
+        DefaultWsdl11Definition wsdl =
+                new DefaultWsdl11Definition();
+
+
         wsdl.setPortTypeName("UserPort");
+
         wsdl.setLocationUri("/ws");
-        wsdl.setTargetNamespace("http://work.com/crudoperation");
+
+        wsdl.setTargetNamespace(
+                "http://work.com/crudoperation"
+        );
+
         wsdl.setSchema(userSchema);
+
+
         return wsdl;
     }
 }

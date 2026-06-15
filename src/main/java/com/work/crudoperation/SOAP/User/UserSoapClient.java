@@ -1,20 +1,39 @@
 package com.work.crudoperation.SOAP.User;
 
 
-import com.work.crudoperation.generated.GetUserRequest;
-import com.work.crudoperation.generated.GetUserResponse;
+import com.work.crudoperation.DTO.Request.CreateUserRequestDto;
+import com.work.crudoperation.Service.FreeMarkerService.FreeMarkerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.ws.client.core.WebServiceTemplate;
+import org.springframework.xml.transform.StringResult;
+import org.springframework.xml.transform.StringSource;
 
 @Service
 @RequiredArgsConstructor
 public class UserSoapClient {
     private final WebServiceTemplate webServiceTemplate;
-    public GetUserResponse getUser(Long id) {
-        GetUserRequest request = new GetUserRequest();
-
-        request.setId(id);
-        return (GetUserResponse) webServiceTemplate.marshalSendAndReceive("http://localhost:8080/ws",request);
+    private final FreeMarkerService freeMarkerService;
+//    public GetUserResponse getUser(Long id) {
+//        GetUserRequest request = new GetUserRequest();
+//
+//        request.setId(id);
+//        return (GetUserResponse) webServiceTemplate.marshalSendAndReceive("http://localhost:8080/ws",request);
+//    }
+    public String createUser(CreateUserRequestDto request) throws Exception {
+        String soapXml = freeMarkerService.generate(request);
+        StringResult result = new StringResult();
+        webServiceTemplate.sendSourceAndReceiveToResult(new StringSource(soapXml), result);
+        return result.toString();
     }
+
+    public String getAllUsers() throws Exception{
+        String xml = freeMarkerService.generateGetAllUsers();
+
+        StringResult result = new StringResult();
+
+        webServiceTemplate.sendSourceAndReceiveToResult(new StringSource(xml), result);
+        return result.toString();
+    }
+
 }

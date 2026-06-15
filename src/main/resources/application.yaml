@@ -21,3 +21,8 @@ spring:
   h2:
     console:
       enabled: true
+
+  logging:
+    level:
+      org.springframework.ws.server.MessageTracing: TRACE
+      org.springframework.ws.client.MessageTracing: TRACE

@@ -11,6 +11,8 @@ import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
+import java.util.List;
+
 @Endpoint
 @RequiredArgsConstructor
 public class UserEndpoint {
@@ -39,11 +41,22 @@ public class UserEndpoint {
 
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "CreateUserRequest")
     @ResponsePayload
-    public CreateUserResponse createUser(@RequestPayload CreateUserRequest createUserRequest) {
-        CreateUserRequestDto createUserRequestDto = userSoapMapper.createSoapToCreateRest(createUserRequest);
-        UserResponseDto userResponseDto = userService.createUser(createUserRequestDto);
+    public CreateUserResponse createUser(@RequestPayload CreateUserRequest request){
 
-        return userSoapMapper.responseRestToResponseSoap(userResponseDto);
+        CreateUserRequestDto createUserRequestDto = userSoapMapper.createSoapToCreateRest(request);
+        UserResponseDto user = userService.createUser(createUserRequestDto);
+        return userSoapMapper.responseRestToResponseSoap(user);
+
+//        CreateUserRequestDto dto = new CreateUserRequestDto();
+//        dto.setUsername(request.getUsername());
+//        dto.setEmail(request.getEmail());
+//        dto.setPassword(request.getPassword());
+//        UserResponseDto result = userService.createUser(dto);
+//        CreateUserResponse response = new CreateUserResponse();
+//        response.setId(result.getId());
+//        response.setUsername(result.getUsername());
+//        response.setEmail(result.getEmail());
+//        return response;
     }
 
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "UpdateUserRequest")
@@ -63,6 +76,25 @@ public class UserEndpoint {
 
         return userSoapMapper.userResponseRestToUserResponseSoap(userResponseDto);
     }
+
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "GetAllUsersRequest")
+    @ResponsePayload
+    public GetAllUsersResponse getAllUsers(@RequestPayload GetAllUsersRequest getAllUsersRequest) {
+        List<UserResponseDto> userResponseDtos = userService.getUsers();
+
+        GetAllUsersResponse getAllUsersResponse = new GetAllUsersResponse();
+
+        for (UserResponseDto userResponseDto : userResponseDtos) {
+            GetAllUsersResponse.Users soapUser = new GetAllUsersResponse.Users();
+            soapUser.setId(userResponseDto.getId());
+            soapUser.setUsername(userResponseDto.getUsername());
+            soapUser.setEmail(userResponseDto.getEmail());
+            getAllUsersResponse.getUsers().add(soapUser);
+        }
+
+        return getAllUsersResponse;
+    }
+
 
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "DeleteUserRequest")
     @ResponsePayload

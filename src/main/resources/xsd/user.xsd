@@ -6,7 +6,7 @@
         xmlns:tns="http://work.com/crudoperation"
         elementFormDefault="qualified">
 
-<!--    createUser-->
+    <!--    createUser-->
     <xs:element name="CreateUserRequest">
         <xs:complexType>
             <xs:sequence>
@@ -15,7 +15,8 @@
                 <xs:element name="password" type="xs:string"/>
             </xs:sequence>
         </xs:complexType>
-    </xs:element><xs:element name="CreateUserResponse">
+    </xs:element>
+    <xs:element name="CreateUserResponse">
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="id" type="xs:long"/>
@@ -25,7 +26,7 @@
         </xs:complexType>
     </xs:element>
 
-<!--    updateUser-->
+    <!--    updateUser-->
     <xs:element name="UpdateUserRequest">
         <xs:complexType>
             <xs:sequence>
@@ -35,7 +36,8 @@
                 <xs:element name="password" type="xs:string"/>
             </xs:sequence>
         </xs:complexType>
-    </xs:element><xs:element name="UpdateUserResponse">
+    </xs:element>
+    <xs:element name="UpdateUserResponse">
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="id" type="xs:long"/>
@@ -45,7 +47,7 @@
         </xs:complexType>
     </xs:element>
 
-<!--    responseUse-->
+    <!--    responseUse-->
     <xs:element name="GetUserRequest">
         <xs:complexType>
             <xs:sequence>
@@ -63,18 +65,41 @@
         </xs:complexType>
     </xs:element>
 
-<!--    deleteUser-->
+    <!--    GetAll-->
+    <xs:element name="GetAllUsersRequest">
+        <xs:complexType>
+            <xs:sequence>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="GetAllUsersResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="users" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="id" type="xs:long"/>
+                            <xs:element name="username" type="xs:string"/>
+                            <xs:element name="email" type="xs:string"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!--    deleteUser-->
     <xs:element name="DeleteUserRequest">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name = "id" type="xs:long"/>
+                <xs:element name="id" type="xs:long"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
     <xs:element name="DeleteUserResponse">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name = "message" type="xs:string"/>
+                <xs:element name="message" type="xs:string"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>

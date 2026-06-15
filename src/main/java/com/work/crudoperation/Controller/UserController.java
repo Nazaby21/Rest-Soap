@@ -5,6 +5,7 @@ import com.work.crudoperation.DTO.Request.UpdateUserRequestDto;
 import com.work.crudoperation.DTO.Response.UserResponseDto;
 import com.work.crudoperation.Exception.DTO.ApiResponse;
 import com.work.crudoperation.Mapper.UserMapper;
+import com.work.crudoperation.SOAP.User.UserSoapClient;
 import com.work.crudoperation.Service.UserService;
 import com.work.crudoperation.VO.RequestVO.CreateUserRequestVO;
 import com.work.crudoperation.VO.RequestVO.UpdateUserRequestVO;
@@ -22,6 +23,7 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
     private final UserMapper userMapper;
+    private final UserSoapClient userSoapClient;
 
     @PostMapping
     public ApiResponse<UserResponseVO> createUser(@RequestBody CreateUserRequestVO createUserRequestVO) {
@@ -31,6 +33,11 @@ public class UserController {
         return ApiResponse.success(userResponseVO);
     }
 
+    @PostMapping("/soap")
+    public String createUser(@RequestBody CreateUserRequestDto request) throws Exception {
+        return userSoapClient.createUser(request);
+    }
+
     @GetMapping()
     public ApiResponse<List<UserResponseVO>> getUsers() {
         List<UserResponseVO> users = userService.getUsers()
@@ -38,6 +45,11 @@ public class UserController {
                 .map(userMapper::userDtoToUserVO)
                 .toList();
         return ApiResponse.success(users);
+    }
+
+    @GetMapping("/soap")
+    public String getAllUsers() throws Exception{
+        return userSoapClient.getAllUsers();
     }
 
     @GetMapping("/{id}")
