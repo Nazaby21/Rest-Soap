@@ -1,6 +1,7 @@
 package com.work.crudoperation.Service.FreeMarkerService;
 
 import com.work.crudoperation.DTO.Request.CreateUserRequestDto;
+import com.work.crudoperation.DTO.Request.UpdateUserRequestDto;
 import freemarker.template.Template;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,36 @@ public class FreeMarkerService {
         Template template = configuration.getTemplate("getAllUser.ftl");
         StringWriter writer = new StringWriter();
         template.process(new HashMap<>(), writer);
+        return writer.toString();
+    }
+
+    public String generateUserById(Long id) throws Exception {
+        Template template = configuration.getTemplate("getById.ftl");
+        Map<String,Object> data = new HashMap<>();
+        data.put("id", id);
+        StringWriter writer = new StringWriter();
+        template.process(data, writer);
+        return writer.toString();
+    }
+
+    public String generateUpdateUser(Long id, UpdateUserRequestDto updateUserRequestDto) throws Exception {
+        Template template = configuration.getTemplate("updateUser.ftl");
+        Map<String,Object> data = new HashMap<>();
+        data.put("id", id);
+        data.put("username", updateUserRequestDto.getUsername());
+        data.put("email", updateUserRequestDto.getEmail());
+        data.put("password", updateUserRequestDto.getPassword());
+        StringWriter writer = new StringWriter();
+        template.process(data, writer);
+        return writer.toString();
+    }
+
+    public String generateDeleteById(Long id) throws Exception {
+        Template template = configuration.getTemplate("deleteById.ftl");
+        Map<String,Object> data = new HashMap<>();
+        data.put("id", id);
+        StringWriter writer = new StringWriter();
+        template.process(data, writer);
         return writer.toString();
     }
 }

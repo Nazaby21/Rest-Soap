@@ -2,6 +2,7 @@ package com.work.crudoperation.SOAP.User;
 
 
 import com.work.crudoperation.DTO.Request.CreateUserRequestDto;
+import com.work.crudoperation.DTO.Request.UpdateUserRequestDto;
 import com.work.crudoperation.Service.FreeMarkerService.FreeMarkerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,9 +30,28 @@ public class UserSoapClient {
 
     public String getAllUsers() throws Exception{
         String xml = freeMarkerService.generateGetAllUsers();
-
         StringResult result = new StringResult();
+        webServiceTemplate.sendSourceAndReceiveToResult(new StringSource(xml), result);
+        return result.toString();
+    }
 
+    public String getUserById(Long id) throws Exception{
+        String xml = freeMarkerService.generateUserById(id);
+        StringResult result = new StringResult();
+        webServiceTemplate.sendSourceAndReceiveToResult(new StringSource(xml), result);
+        return result.toString();
+    }
+
+    public String updateUserById(Long id, UpdateUserRequestDto request) throws Exception {
+        String xml = freeMarkerService.generateUpdateUser(id, request);
+        StringResult result = new StringResult();
+        webServiceTemplate.sendSourceAndReceiveToResult(new StringSource(xml), result);
+        return result.toString();
+    }
+
+    public String deleteUserById(Long id) throws Exception {
+        String xml =  freeMarkerService.generateDeleteById(id);
+        StringResult result = new StringResult();
         webServiceTemplate.sendSourceAndReceiveToResult(new StringSource(xml), result);
         return result.toString();
     }

@@ -59,6 +59,11 @@ public class UserController {
         return ApiResponse.success(userResponseVO);
     }
 
+    @GetMapping("/soap/{id}")
+    public String getById(@PathVariable Long id) throws Exception {
+        return userSoapClient.getUserById(id);
+    }
+
     @PutMapping("/{id}")
     public ApiResponse<UserResponseVO> updateUser(@PathVariable Long id, @Valid @RequestBody UpdateUserRequestVO updateUserRequestVO) {
         UpdateUserRequestDto updateUserRequestDto = userMapper.updateUserVoToUserDto(updateUserRequestVO);
@@ -67,11 +72,21 @@ public class UserController {
         return ApiResponse.success(userResponseVO);
     }
 
+    @PutMapping("/soap/{id}")
+    public String updateUser(@PathVariable Long id, @RequestBody UpdateUserRequestDto updateUserRequestDto) throws Exception {
+        return userSoapClient.updateUserById(id, updateUserRequestDto);
+    }
+
     @DeleteMapping("/{id}")
     public ApiResponse<String> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
         return ApiResponse.<String>builder()
                 .message("User has been deleted")
                 .build();
+    }
+
+    @DeleteMapping("/soap/{id}")
+    public String deleteUserById(@PathVariable Long id) throws Exception {
+        return userSoapClient.deleteUserById(id);
     }
 }
