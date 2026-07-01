@@ -2,11 +2,27 @@ spring:
   application:
     name: crudOperation
 
+  cache:
+    type: caffeine
+    caffeine:
+      spec: expireAfterWrite=1h
+#  datasource:
+#    url: jdbc:h2:file:./data/bankingdb
+#    username: sa
+#    password:
+#    driver-class-name: org.h2.Driver
+#
+#  jpa:
+#    database-platform: org.hibernate.dialect.H2Dialect
+#    hibernate:
+#      ddl-auto: update
+#    show-sql: true
+
   datasource:
-    url: jdbc:h2:file:./data/bankingdb
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
+    url: jdbc:postgresql://localhost:5432/crud
+    username: postgres
+    password: N@zaby
+    driver-class-name: org.postgresql.Driver
 
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
@@ -18,11 +34,12 @@ spring:
     mapper:
       sort-properties-alphabetically: false
 
-  h2:
-    console:
-      enabled: true
+#  h2:
+#    console:
+#      enabled: true
+#      path: /h2-console
 
-  logging:
-    level:
-      org.springframework.ws.server.MessageTracing: TRACE
-      org.springframework.ws.client.MessageTracing: TRACE
+#  logging:
+#    level:
+#      org.springframework.ws.server.MessageTracing: TRACE
+#      org.springframework.ws.client.MessageTracing: TRACE
